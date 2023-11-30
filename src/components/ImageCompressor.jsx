@@ -44,7 +44,7 @@ export default function ImageCompressor() {
         formData.append('compress', imageData.compress);
         formData.append('format', 'webp');
         try {
-            const response = await fetch('http://localhost:3000/upload', {
+            const response = await fetch('https://image-service-982z.onrender.com/compressor', {
                 method: 'POST',
                 body: formData,
             });
