@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import Upload from './Upload';
 
 export default function ImageCompressor() {
 
@@ -66,7 +67,7 @@ export default function ImageCompressor() {
             });
 
             if (!response.ok) {
-          
+
                 const message = await response.json();
                 console.log(message.message)
                 setIsLoading(false)
@@ -89,34 +90,28 @@ export default function ImageCompressor() {
         }, 4000)
         return (<div className='bg-red-500 rounded-md py-2 px-4 text-white my-5' >{msg}</div>)
     }
-    const buttonCss = "inline-flex mt-10 py-2 px-3 text-white text-sm font-semibold rounded-md shadow focus:outline-none " + (!imageData.image.type ? "bg-indigo-400" : "bg-indigo-500")
+    const buttonCss = "inline-flex mt-10 py-2 px-3 text-white text-sm font-semibold rounded-md shadow focus:outline-none " + (!imageData.image.type ? "bg-indigo-400" : "bg-indigo-500");
+
+    const compressedFilename = () => { return defaultName ? imageData.image.name.replace(/\.[^/.]+$/, ".webp") : `${Date.now()}_${imageData.image.name.replace(/\.[^/.]+$/, ".webp")}` };
+
+    const reducePercent = (originalSize, compressedSize) => {
+        return (((originalSize - compressedSize) / originalSize) * 100).toFixed(2) + "%";
+    }
     return (
-        <><div className="px-6 py-5">
+        <div className="px-6 py-5">
             <form>
 
-                <div className="flex items-center justify-center w-full">
-                    <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800  hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-indigo-100">
-                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                            <svg className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                            </svg>
-                            <p className="mb-2 text-sm text-gray-900 dark:text-gray-600"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-                            <p className="text-xs text-gray-800 dark:text-gray-600">SVG, PNG, JPG or GIF (MAX. 20MB)</p>
-                        </div>
-                        {/* <input id="dropzone-file" type="file" className="hidden" /> */}
-                        <input id="dropzone-file" name="image" type="file" onChange={handleChange} className="sr-only" required accept="image/*" />
-                    </label>
-                </div>
-              
+                <Upload name="image" uploadFileInfo="SVG, PNG, JPG or GIF (MAX. 20MB)" handleChange={handleChange} acceptFormats="image/*" />
+
                 <div className='mt-8 md:w-100 items-center '>
-                <label htmlFor='default-name' className='font-bold'>Default Name: </label>
-                <input type="checkbox" className="enabled:hover:border-gray-400 mr-5" name="originalName" onChange={handleName} checked={defaultName} />
+                    <label htmlFor='default-name' className='font-bold'>Default Name: </label>
+                    <input type="checkbox" className="enabled:hover:border-gray-400 mr-5" name="originalName" onChange={handleName} checked={defaultName} />
 
                     <label htmlFor="default-range" className="font-bold text-sm text-gray-900 ">Compress size: </label>
                     <input name="compress" type="range" value={imageData.compress} onChange={handleChange} min="10" max="100" className="w-1/3 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer " />
                     <span className=" rounded-lg ml-5 bg-indigo-500 py-2 px-3 text-white text-sm font-medium">{imageData.compress}%</span>
                 </div>
-                <button className={buttonCss} onClick={handleCompress} disabled={!imageData.image.type}>
+                <button className={buttonCss} onClick={handleCompress} disabled={!imageData.image.type || isLoading}>
 
                     {isLoading ? <><svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -124,12 +119,19 @@ export default function ImageCompressor() {
                     </svg>
                         Processing...</> : "Compress"}</button>
             </form>
-            {isImageCompress && <div className="pt-5 md:w-1/4 font-medium " ><span>Original size:{byteToMb(imageData.image.size)}</span><br /><span className='inline-flex px-2  mb-2 bg-green-500 text-white rounded-lg'>Compress size: {byteToMb(compressSize)}</span> <div className='relative'>
-                <img src={isImageCompress} /><a href={isImageCompress} download={defaultName ? imageData.image.name : Date.now() + imageData.image.name} className='absolute bottom-0 right-0 inline-flex mt-10 py-2 px-3 bg-indigo-500 text-white text-sm font-semibold shadow focus:outline-none' >Download</a></div></div>}
+            {isImageCompress && <div className="pt-5 md:w-1/4 font-medium p-2 border-solid border-2 border-indigo-500 rounded-md mt-5" >
+                <span className='bg-yellow-200 px-2 rounded-lg'>Original size:{byteToMb(imageData.image.size)}</span>
+                <br />
+                <span className='inline-flex px-2  mb-2 bg-green-500 text-white rounded-lg mt-2'>Compress size: {byteToMb(compressSize)}</span>
+                <br />
+                <span className='inline-flex px-2  mb-2 bg-indigo-500 text-white rounded-lg'>Reduce Size: {reducePercent(imageData.image.size, compressSize)}</span>
+
+                <div className='relative'>
+                    <img src={isImageCompress} /><a href={isImageCompress} download={compressedFilename()} className='absolute bottom-0 right-0 inline-flex mt-10 py-2 px-3 bg-indigo-500 text-white text-sm font-semibold shadow focus:outline-none' >Download</a></div></div>}
             {isError &&
                 message(isError)
             }
 
-        </div> </>
+        </div>
     )
 }
