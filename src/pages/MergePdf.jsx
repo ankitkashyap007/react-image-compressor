@@ -23,7 +23,7 @@ export default function MergePdf() {
     // Byte to KB or MB size converter
     function byteToMb(byte) {
         let size = ""
-        console.log(byte)
+
         if (byte > 1000000) {
             size = (byte / 1024 / 1024).toFixed(2) + " MB"
         }
@@ -44,15 +44,13 @@ export default function MergePdf() {
           }
 
         try {
-            const response = await fetch('http://localhost:3001/pdf', {
+            const response = await fetch('https://image-service-982z.onrender.com/pdf', {
                 method: 'POST',
                 body: formData,
             });
 
             if (!response.ok) {
-
                 const message = await response.json();
-                console.log(message.message)
                 setIsLoading(false)
                 throw new Error(message.message);
             }
@@ -61,8 +59,6 @@ export default function MergePdf() {
             const blob = await response.blob()
             setMergeSize(blob.size)
            setMergeURL(URL.createObjectURL(blob))
-            console.log(mergeURL)
-
         } catch (error) {
             setError(error.message)
             setIsLoading(false)
