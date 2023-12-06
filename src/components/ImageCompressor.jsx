@@ -69,7 +69,6 @@ export default function ImageCompressor() {
             if (!response.ok) {
 
                 const message = await response.json();
-                console.log(message.message)
                 setIsLoading(false)
                 throw new Error(message.message);
             }
@@ -104,12 +103,15 @@ export default function ImageCompressor() {
                 <Upload name="image" uploadFileInfo="SVG, PNG, JPG or GIF (MAX. 20MB)" handleChange={handleChange} acceptFormats="image/*" />
 
                 <div className='mt-8 md:w-100 items-center '>
-                    <label htmlFor='default-name' className='font-bold'>Default Name: </label>
-                    <input type="checkbox" className="enabled:hover:border-gray-400 mr-5" name="originalName" onChange={handleName} checked={defaultName} />
 
-                    <label htmlFor="default-range" className="font-bold text-sm text-gray-900 ">Compress size: </label>
-                    <input name="compress" type="range" value={imageData.compress} onChange={handleChange} min="10" max="100" className="w-1/3 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer " />
-                    <span className=" rounded-lg ml-5 bg-indigo-500 py-2 px-3 text-white text-sm font-medium">{imageData.compress}%</span>
+                    <input type="checkbox" className="enabled:hover:border-gray-400 cursor-pointer" name="originalName" onChange={handleName} checked={defaultName} />
+                    <label htmlFor='original-name' className='font-bold mr-5'> Default Name</label>
+                    <div className="inline-flex items-center">
+
+                        <label htmlFor="default-range" className="font-bold text-gray-900 mr-2">Compress size:</label>
+                        <input name="compress" type="range" value={imageData.compress} onChange={handleChange} min="10" max="100" className="w-1/3 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" />
+                        <span className=" rounded-lg ml-5 bg-indigo-500 py-2 px-3 text-white text-sm font-medium">{imageData.compress}%</span>
+                    </div>
                 </div>
                 <button className={buttonCss} onClick={handleCompress} disabled={!imageData.image.type || isLoading}>
 
