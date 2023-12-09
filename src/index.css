@@ -4,3 +4,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+tr td:first-child::first-letter{
+    text-transform: capitalize;
+}

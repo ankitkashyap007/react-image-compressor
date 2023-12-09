@@ -7,13 +7,14 @@ import Privacy from "./pages/Privacy";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import MergePdf from './pages/MergePdf';
+import WpDetector from './pages/WpDetector';
 
 function App() {
   return (<>
     <Router>
 
       <Header />
-      <main className='h-100'>
+      <main className='h-100 w-full'>
         <Routes>
           <Route path="/" element={<Home />} />
           {/**
@@ -148,6 +149,8 @@ function App() {
           <Route path="/jpg-to-jpeg" element={<Home />} />
           <Route path="/jpg-to-heif" element={<Home />} />
           
+          <Route path="/wp-detector" element={<WpDetector />} />
+
           <Route path="/merge-pdf" element={<MergePdf/>} />
           <Route path="/about" element={<About />} />
           <Route path="/privacy" element={<Privacy />} />

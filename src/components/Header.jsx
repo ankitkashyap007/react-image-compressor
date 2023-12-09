@@ -15,6 +15,10 @@ export default function Header() {
   }, {
     title: "Privacy",
     url: "/privacy"
+  },
+  {
+    title: "WordPress Detector",
+    url: "/wp-detector"
   }];
   const anchorTags = pages.map(page => {
     return <li key={page.url}>
