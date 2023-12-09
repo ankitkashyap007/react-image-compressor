@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Upload from './Upload';
+import ProgressButton from './ProgressButton';
 
 export default function ImageCompressor() {
 
@@ -89,7 +90,6 @@ export default function ImageCompressor() {
         }, 4000)
         return (<div className='bg-red-500 rounded-md py-2 px-4 text-white my-5' >{msg}</div>)
     }
-    const buttonCss = "inline-flex mt-10 py-2 px-3 text-white text-sm font-semibold rounded-md shadow focus:outline-none " + (!imageData.image.type ? "bg-indigo-400" : "bg-indigo-500");
 
     const compressedFilename = () => { return defaultName ? imageData.image.name.replace(/\.[^/.]+$/, ".webp") : `${Date.now()}_${imageData.image.name.replace(/\.[^/.]+$/, ".webp")}` };
 
@@ -113,13 +113,9 @@ export default function ImageCompressor() {
                         <span className=" rounded-lg ml-5 bg-indigo-500 py-2 px-3 text-white text-sm font-medium">{imageData.compress}%</span>
                     </div>
                 </div>
-                <button className={buttonCss} onClick={handleCompress} disabled={!imageData.image.type || isLoading}>
 
-                    {isLoading ? <><svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                        Processing...</> : "Compress"}</button>
+                <ProgressButton buttonTitle="Compress" handler={handleCompress} disable={!imageData.image.type} isLoading={isLoading}/>
+
             </form>
             {isImageCompress && <div className="pt-5 md:w-1/4 font-medium p-2 border-solid border-2 border-indigo-500 rounded-md mt-5" >
                 <span className='bg-yellow-200 px-2 rounded-lg'>Original size:{byteToMb(imageData.image.size)}</span>

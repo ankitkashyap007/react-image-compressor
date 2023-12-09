@@ -1,10 +1,13 @@
-:root {
+:root {}
 
-}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-tr td:first-child::first-letter{
+tr td:first-child::first-letter, th:first-child::first-letter {
     text-transform: capitalize;
+}
+
+tr td:first-child {
+    font-weight: bold;
 }
