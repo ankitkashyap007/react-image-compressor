@@ -110,7 +110,7 @@ export default function WpDetector() {
             return setIsLoading(false)
         } else {
             try {
-                const response = await fetch(`http://localhost:3001/web/wp-detector?site=${isSite}`);
+                const response = await fetch(`https://image-service-982z.onrender.com/web/wp-detector?site=${isSite}`);
 
                 if (response.ok) {
                     setIsLoading(false)
