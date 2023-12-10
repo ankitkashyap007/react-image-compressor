@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react"
 import ProgressButton from "../components/ProgressButton";
+import ThemeInfo from "../components/WpDetector/ThemeInfo"
+import PluginInfo from "../components/WpDetector/PluginInfo";
+import QuickInfo from "../components/WpDetector/QuickInfo"
 
 export default function WpDetector() {
 
@@ -96,6 +99,7 @@ export default function WpDetector() {
         const urlMatch = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/i;
 
         e.preventDefault();
+        setJsonData(null)
         if (!isSite) {
             return console.log("Please enter website url.")
         }
@@ -104,16 +108,16 @@ export default function WpDetector() {
 
         if (!match) {
             return setIsLoading(false)
-        }else{
+        } else {
             try {
-                const response = await fetch(`https://image-service-982z.onrender.com/web/wp-detector?site=${isSite}`);
-    
+                const response = await fetch(`http://localhost:3001/web/wp-detector?site=${isSite}`);
+
                 if (response.ok) {
                     setIsLoading(false)
                     const data = await response.json();
                     setJsonData(data)
                     console.log(data);
-    
+
                 } else {
                     setIsLoading(false)
                 }
@@ -127,84 +131,21 @@ export default function WpDetector() {
         <h1 className="font-bold text-2xl mb-5 mt-10">WP Detector</h1>
         <form onSubmit={handleSearch} className="px-5 flex flex-col border border-gray-200 border-2 p-5 mb-10 rounded-md">
 
-            <input className="rounded-md border border-solid border-2 px-3 py-2 mb-5 text-xl w-full" type="text" name="site" id="site-url" value={isSite} onChange={handleChange} placeholder="Website url" disabled={isLoading}/>
+            <input className="rounded-md border border-solid border-2 px-3 py-2 mb-5 text-xl w-full" type="text" name="site" id="site-url" value={isSite} onChange={handleChange} placeholder="Website url" disabled={isLoading} />
 
             <ProgressButton buttonTitle="Search" isLoading={isLoading} disable={!isSite} />
 
         </form>
         {jsonData &&
-jsonData.result ?       <div className="w-full">
-<table className="mb-5" border="1">
-    <thead>
-        <tr>
-            <th colSpan={2} className="text-xl">WordPress</th>
-        </tr>
-    </thead>
-    <tbody>
-        {(jsonData && jsonData.result) ? Object.entries(jsonData.result).map(([key, value]) => (
-            <tr className="bg-gray-100" key={key}>
-                <td className="py-2 px-4 border-b">{key}</td>
-                <td className="py-2 px-4 border-b">{ value ? (Array.isArray(value) ? <ul>{value.map(item => <li>{item}</li>)}</ul> : typeof value === 'object' ? <ul className="list-disc">{Object.entries(value).map(([key, objectValue]) => <li key={key}>{key}: {!objectValue ? "N/A" : objectValue }</li>)}</ul> : value) : " na"}</td>
-            </tr>
-        )) : <tr><td colSpan={2} className="text-center">No details available</td></tr> }
-    </tbody>
-</table>
-<table className="mb-5" border="1">
-    <thead>
-        <tr>
-            <th colSpan={2} className="text-xl">Theme Information</th>
-        </tr>
-    </thead>
-    <tbody>
+            jsonData.result ? <div className="w-full">
+                <QuickInfo jsonData={jsonData} />
+            <ThemeInfo jsonData={jsonData} />
 
-        {jsonData && jsonData.themeInfo && Object.entries(jsonData.themeInfo).map(([key, value]) => (
-            <tr className="bg-gray-100" key={key}>
-                <td className="py-2 px-4 border-b">{key}</td>
-                <td className="py-2 px-4 border-b">{Array.isArray(value) ? <ul>{value.map(item => <li>{item}</li>)}</ul> : typeof value === 'object' ? Object.entries(value).map(([key, objectValue]) => <span className="m-1 px-2 py-1 border border-solid border-blue-500 inline-flex" key={key}>{key === "description" ?  <div dangerouslySetInnerHTML={{ __html: objectValue }} /> : objectValue }</span>) : value}</td>
-            </tr>
-        ))}
-    </tbody>
-</table>
-<table className="mb-5" border="1">
-    <thead>
-        <tr>   <th colSpan={2} className="text-xl">Plugin Information</th>
-        </tr>
-    </thead>
-    <tbody>
-        {jsonData && jsonData.pluginInfo && Object.entries(jsonData.pluginInfo).map(([plugin, details], mainIndex) => (
-            <>
+            <PluginInfo jsonData={jsonData} />
 
-                <tr>
-                    <th colSpan={2} className="text-xl">{plugin}</th>
-                </tr>
-
-                {details ?
-
-                    Object.entries(details).map(([mainkey, value]) => (
-
-                        Array.isArray(value) ?
-
-                            <tr><td className="py-2 px-4 border-b">{mainkey}</td><td className="py-2 px-4 border-b" > <ul>{value.map(item => <li>{item}</li>)}</ul></td></tr> :
-
-                            typeof value === 'object' ?
-                                mainkey === 'tags' ? <tr><td className="py-2 px-4 border-b">{mainkey}</td><td className="py-2 px-4 border-b">{Object.entries(value).map(([key, objectValue]) => <li className="m-1 px-2 py-1 border border-solid border-blue-500 inline-flex" colSpan={2} key={key}>{objectValue}</li>)}</td></tr>
-                                    :
-                                    Object.entries(value).map(([key, objectValue]) =>
-                                        <tr>
-                                            <td className="py-2 px-4 border-b" key={key}>{mainkey}</td>
-                                            <td className="py-2 px-4 border-b" key={key + "new" }>{key === "description" ?  <div dangerouslySetInnerHTML={{ __html: objectValue }} /> : objectValue }</td>
-                                        </tr>
-                                    ) :
-                                <tr><td className="py-2 px-4 border-b">{mainkey}</td><td className="py-2 px-4 border-b">{value}</td> </tr>
-
-                    )) : <tr><td colSpan={2} className="text-center">No details available</td></tr>}
-            </>
-        ))}
-    </tbody>
-</table>
-</div> :
-<div className="border border-solid py-2 px-3">Not a wordpress website</div>
+        </div> :
+            <div className="border border-solid py-2 px-3">Not a wordpress website</div>
         }
-  
+
     </div>)
 }
