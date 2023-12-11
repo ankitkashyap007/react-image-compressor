@@ -2,7 +2,7 @@ import Header from "../components/Header"
 import ImageCompressor from "../components/ImageCompressor"
 const Home = () => {
     return (
-        <div>
+        <div><h2 className='p-5 font-bold text-2xl py-5 tracking-wide'>Image Compressor</h2>
             <ImageCompressor />
             <div className="p-5">
                 <h2 className="pt-2 font-bold text-xl">Effortlessly Convert and Compress Your Images</h2>

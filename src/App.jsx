@@ -8,6 +8,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import MergePdf from './pages/MergePdf';
 import WpDetector from './pages/WpDetector';
+import WebAuditorAI from './pages/WebAuditorAI';
 
 function App() {
   return (<>
@@ -150,6 +151,7 @@ function App() {
           <Route path="/jpg-to-heif" element={<Home />} />
           
           <Route path="/wp-detector" element={<WpDetector />} />
+          <Route path="/web-auditor-ai" element={<WebAuditorAI/>} />
 
           <Route path="/merge-pdf" element={<MergePdf/>} />
           <Route path="/about" element={<About />} />
