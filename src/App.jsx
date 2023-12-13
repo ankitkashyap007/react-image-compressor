@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 import MergePdf from './pages/MergePdf';
 import WpDetector from './pages/WpDetector';
 import WebAuditorAI from './pages/WebAuditorAI';
+import ResumeBuilder from './pages/ResumeBuilder';
 
 function App() {
   return (<>
@@ -152,6 +153,7 @@ function App() {
           
           <Route path="/wp-detector" element={<WpDetector />} />
           <Route path="/web-auditor-ai" element={<WebAuditorAI/>} />
+          <Route path="/resume-builder-ai" element={<ResumeBuilder />} />
 
           <Route path="/merge-pdf" element={<MergePdf/>} />
           <Route path="/about" element={<About />} />

@@ -102,10 +102,12 @@ export default function ImageCompressor() {
 
                 <Upload name="image" uploadFileInfo="SVG, PNG, JPG or GIF (MAX. 20MB)" handleChange={handleChange} acceptFormats="image/*" />
 
-                <div className='mt-8 md:w-100 items-center '>
+                <div className='my-8 md:w-100 items-center'>
+                <div className="flex inline-flex">
 
-                    <input type="checkbox" className="enabled:hover:border-gray-400 cursor-pointer" name="originalName" onChange={handleName} checked={defaultName} />
+                    <input type="checkbox" className="enabled:hover:border-gray-400 cursor-pointer w-auto mr-2" name="originalName" onChange={handleName} checked={defaultName} />
                     <label htmlFor='original-name' className='font-bold mr-5'> Default Name</label>
+                    </div>
                     <div className="inline-flex items-center">
 
                         <label htmlFor="default-range" className="font-bold text-gray-900 mr-2">Compress size:</label>
