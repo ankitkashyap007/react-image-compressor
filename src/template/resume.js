@@ -26,7 +26,7 @@ const formatDate = (dateString) => {
     return `${date.getUTCMonth() + 1}/${date.getUTCFullYear()}`;
 };
 
-export default {
+const template = {
     generateLaTex: (data) => {
         let latexCode = `
       \\documentclass[letterpaper,10pt]{article}
@@ -468,3 +468,4 @@ export default {
         }
     }
 }
+export default template;

@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import "./resume.css"
 import template from "../template/resume";
-import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake/build/vfs_fonts";
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import * as pdfMake from "pdfmake/build/pdfmake";
+import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import UserForm from "../components/ResumeBuilder/UserForm"
+
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export default function ResumeBuilder() {
     const [formData, setFormData] = useState({
