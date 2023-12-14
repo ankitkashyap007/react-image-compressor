@@ -1,5 +1,6 @@
 import Header from "../components/Header"
 import ImageCompressor from "../components/ImageCompressor"
+
 const Home = () => {
     return (
         <div><h2 className='p-5 font-bold text-2xl py-5 tracking-wide'>Image Compressor</h2>

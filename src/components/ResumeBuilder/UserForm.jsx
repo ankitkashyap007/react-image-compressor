@@ -1,6 +1,8 @@
 import React from 'react'
 
-export default function Form({formData,submitForm,resetForm,setFormData}) {
+export default function Form({formData,submitForm,setFormData}) {
+    const inputStyle = "px-2 py-1 border-2 rounded-md mb-2";
+
     const addEducation = () => {
         setFormData({
             ...formData,
@@ -54,7 +56,7 @@ export default function Form({formData,submitForm,resetForm,setFormData}) {
     const handleChange = (e, index, key) => {
         const { name, value } = e.target;
 
-        console.log(`this ${name}`)
+        // console.log(`this ${Array.isArray(formData[name])}`)
 
         if (Array.isArray(formData[name])) {
 
@@ -89,34 +91,69 @@ export default function Form({formData,submitForm,resetForm,setFormData}) {
         });
     };
 
+    const resetForm = () => {
+        setFormData({
+            personalDetails: {
+                name: '',
+                address: '',
+                email: '',
+                phone: '',
+                dateOfBirth: '',
+                website: '',
+                linkedin: '',
+                photo: '',
+            },
+            educations: [],
+            experiences: [],
+            skills: [],
+            objective: '',
+            projects: [],
+            languages: [],
+            interests: [],
+            achievements: [],
+            sign: '',
+        });
+    }
+
+    const removeThisElement = (e, key, index) => {
+        setFormData(preValue => {
+            const object = preValue[key];
+            object.splice(index, 1)
+            return {
+                ...preValue,
+                ...object
+            }
+        })
+        console.log("Removed")
+    }
 
   return (
     <form id="resumeForm">
     <div className='rounded-md p-2 bg-white my-2'>
         <h2 className="font-bold text-xl">Personal Details</h2>
         <label htmlFor="name">Name:</label>
-        <input className="px-2 py-1 border-2 rounded-md mb-2" type="text" id="name" name="name" onChange={(e) => handleChange(e, null, "personalDetails")} />
+        <input value={formData.personalDetails.name} className={inputStyle} type="text" id="name" name="name" onChange={(e) => handleChange(e, null, "personalDetails")} />
 
         <label htmlFor="address">Address:</label>
-        <input className="px-2 py-1 border-2 rounded-md mb-2" type="text" id="address" name="address" onChange={(e) => handleChange(e, null, "personalDetails")} />
+        <input value={formData.personalDetails.address} className={inputStyle} type="text" id="address" name="address" onChange={(e) => handleChange(e, null, "personalDetails")} />
 
         <label htmlFor="email">Email:</label>
-        <input className="px-2 py-1 border-2 rounded-md mb-2" type="email" id="email" name="email" onChange={(e) => handleChange(e, null, "personalDetails")} />
+        <input value={formData.personalDetails.email} className={inputStyle} type="email" id="email" name="email" onChange={(e) => handleChange(e, null, "personalDetails")} />
 
         <label htmlFor="phone">Phone:</label>
-        <input className="px-2 py-1 border-2 rounded-md mb-2" type="tel" id="phone" name="phone" onChange={(e) => handleChange(e, null, "personalDetails")} />
+        <input value={formData.personalDetails.phone} className={inputStyle} type="tel" id="phone" name="phone" onChange={(e) => handleChange(e, null, "personalDetails")} />
 
         <label htmlFor="dob">Date of Birth:</label>
-        <input className="px-2 py-1 border-2 rounded-md mb-2" type="date" id="dob" name="dateOfBirth" onChange={(e) => handleChange(e, null, "personalDetails")} />
+        <input value={formData.personalDetails.dateOfBirth} className={inputStyle} type="date" id="dob" name="dateOfBirth" onChange={(e) => handleChange(e, null, "personalDetails")} />
 
         <label htmlFor="website">Website:</label>
-        <input className="px-2 py-1 border-2 rounded-md mb-2" type="url" id="website" name="website" onChange={(e) => handleChange(e, null, "personalDetails")} />
+        <input value={formData.personalDetails.website} className={inputStyle} type="url" id="website" name="website" onChange={(e) => handleChange(e, null, "personalDetails")} />
 
         <label htmlFor="linkedin">LinkedIn:</label>
-        <input className="px-2 py-1 border-2 rounded-md mb-2" type="text" id="linkedin" name="linkedin" onChange={(e) => handleChange(e, null, "personalDetails")} />
+        <input value={formData.personalDetails.linkedin} className={inputStyle} type="text" id="linkedin" name="linkedin" onChange={(e) => handleChange(e, null, "personalDetails")} />
 
         <label htmlFor="photo">Photo URL:</label>
-        <input className="px-2 py-1 border-2 rounded-md mb-2" type="url" id="photo" name="photo" onChange={(e) => handleChange(e, null, "personalDetails")} />
+        <input value={formData.personalDetails.photo} className={inputStyle} type="url" id="photo" name="photo" onChange={(e) => handleChange(e, null, "personalDetails")} />
 
     </div>
     <h2 className="font-bold text-xl">Education</h2>
@@ -124,19 +161,19 @@ export default function Form({formData,submitForm,resetForm,setFormData}) {
         {formData.educations.map((education, index) => (
             <div className="rounded-md p-2 bg-white my-2" key={index}>
                 <label>Course:</label>
-                <input className="px-2 py-1 border-2 rounded-md mb-2"
+                <input value={education.course} className={inputStyle}
                     type="text"
-                    name="course"
+                    name={`course`}
                     onChange={(e) => handleChange(e, index, "educations")}
                 />
                 <label>University:</label>
-                <input className="px-2 py-1 border-2 rounded-md mb-2" type="text" name="university" onChange={(e) => handleChange(e, index, "educations")} />
+                <input value={education.university} className={inputStyle} type="text" name={`university`} onChange={(e) => handleChange(e, index, "educations")} />
 
                 <label>Grade:</label>
-                <input className="px-2 py-1 border-2 rounded-md mb-2" type="text" name="grade" onChange={(e) => handleChange(e, index, "educations")} />
+                <input value={education.grade} className={inputStyle} type="text" name={`grade`} onChange={(e) => handleChange(e, index, "educations")} />
 
                 <label>Year:</label>
-                <input className="px-2 py-1 border-2 rounded-md mb-2" type="text" name="year" onChange={(e) => handleChange(e, index, "educations")} />
+                <input value={education.year} className={inputStyle} type="text" name={`year`} onChange={(e) => handleChange(e, index, "educations")} />
 
             </div>
         ))}
@@ -148,23 +185,23 @@ export default function Form({formData,submitForm,resetForm,setFormData}) {
         {formData.experiences.map((experience, index) => (
             <div className="rounded-md p-2 bg-white my-2" key={index}>
                 <label>Company Name:</label>
-                <input className="px-2 py-1 border-2 rounded-md mb-2"
+                <input value={experience.companyName} className={inputStyle}
                     type="text"
-                    name="companyName"
+                    name={`companyName`}
                     onChange={(e) => handleChange(e, index, "experiences")}
                 />
 
                 <label>Job Title:</label>
-                <input className="px-2 py-1 border-2 rounded-md mb-2" type="text" name="jobTitle" onChange={(e) => handleChange(e, index, "experiences")} />
+                <input value={experience.jobTitle} className={inputStyle} type="text" name={`jobTitle`} onChange={(e) => handleChange(e, index, "experiences")} />
 
                 <label>Start Date:</label>
-                <input className="px-2 py-1 border-2 rounded-md mb-2" type="date" name="startDate" onChange={(e) => handleChange(e, index, "experiences")} />
+                <input value={experience.startDate} className={inputStyle} type="date" name={`startDate`} onChange={(e) => handleChange(e, index, "experiences")} />
 
                 <label>End Date:</label>
-                <input className="px-2 py-1 border-2 rounded-md mb-2" type="date" name="endDate" onChange={(e) => handleChange(e, index, "experiences")} />
+                <input value={experience.endDate} className={inputStyle} type="date" name={`endDate`} onChange={(e) => handleChange(e, index, "experiences")} />
 
                 <label>Details:</label>
-                <textarea className="px-2 py-1 border-2 rounded-md mb-2" name="details" rows="4" onChange={(e) => handleChange(e, index, "experiences")} ></textarea>
+                <textarea value={experience.details} className={inputStyle} name={`details`} rows="4" onChange={(e) => handleChange(e, index, "experiences")} ></textarea>
 
             </div>
         ))}
@@ -175,27 +212,27 @@ export default function Form({formData,submitForm,resetForm,setFormData}) {
     <label htmlFor="skills">Skills (comma-separated):</label>
     {
         formData.skills.map((skill, index) => (
-            <input key={index} className="px-2 py-1 border-2 rounded-md mb-2" type="text" name="skills" placeholder="e.g., JavaScript, HTML, CSS" onChange={(e) => handleChange(e, index)} />
+            <input value={skill} key={index} className={inputStyle} type="text" name="skills" placeholder="e.g., JavaScript, HTML, CSS" onChange={(e) => handleChange(e, index)} />
         ))
     }
     <button className="text-white bg-indigo-500 font-bold px-5 py-2 border-2 rounded-md mb-2" type="button" onClick={addSkill}>Add Skill</button>
 
     <h2 className="font-bold text-xl">Objective</h2>
     <label htmlFor="objective">Objective:</label>
-    <textarea className="px-2 py-1 border-2 rounded-md mb-2" id="objective" name="objective" rows="4" onChange={handleChange} ></textarea>
+    <textarea value={formData.objective} className={inputStyle} id="objective" name="objective" rows="4" onChange={handleChange} ></textarea>
 
     <h2 className="font-bold text-xl">Projects</h2>
     <div id="projectContainer">
         {formData.projects.map((project, index) => (
             <div className="rounded-md p-2 bg-white my-2" key={index}>
                 <label>Name:</label>
-                <input className="px-2 py-1 border-2 rounded-md mb-2"
+                <input value={project.name} className={inputStyle}
                     type="text"
-                    name="name"
+                    name={`name`}
                     onChange={(e) => handleChange(e, index, "projects")}
                 />
                 <label>Description:</label>
-                <textarea className="px-2 py-1 border-2 rounded-md mb-2" name="description" rows="4" onChange={(e) => handleChange(e, index, "projects")}></textarea>
+                <textarea value={project.description} className={inputStyle} name={`description`} rows="4" onChange={(e) => handleChange(e, index, "projects")}></textarea>
             </div>
         ))}
     </div>
@@ -205,7 +242,7 @@ export default function Form({formData,submitForm,resetForm,setFormData}) {
     <label htmlFor="languages">Languages (comma-separated):</label>
     {
         formData.languages.map((language, index) => (
-            <input key={index} className="px-2 py-1 border-2 rounded-md mb-2" type="text" id="languages" name="languages" placeholder="e.g., English, Spanish" onChange={(e) => handleChange(e, index)} />
+            <input value={language} key={index} className={inputStyle} type="text" id="languages" name="languages" placeholder="e.g., English, Spanish" onChange={(e) => handleChange(e, index)} />
         ))
     }
     <button className="text-white bg-indigo-500 font-bold px-5 py-2 border-2 rounded-md mb-2" type="button" onClick={addLanguage}>Add Language</button>
@@ -213,26 +250,30 @@ export default function Form({formData,submitForm,resetForm,setFormData}) {
     <h2 className="font-bold text-xl">Interests</h2>
     <label htmlFor="interests">Interests (comma-separated):</label>
     {
-        formData.interests.map((language, index) => (
-            <input key={index} className="px-2 py-1 border-2 rounded-md mb-2" type="text" id="interests" name="interests" placeholder="e.g., Reading, Traveling" onChange={(e) => handleChange(e, index)} />
+        formData.interests.map((interest, index) => (
+            <input value={interest} key={index} className={inputStyle} type="text" id="interests" name="interests" placeholder="e.g., Reading, Traveling" onChange={(e) => handleChange(e, index)} />
         ))
     }
     <button className="text-white bg-indigo-500 font-bold px-5 py-2 border-2 rounded-md mb-2" type="button" onClick={addInterest}>Add Interest</button>
 
+    {/** Achievements */}
     <h2 className="font-bold text-xl">Achievements</h2>
     <label htmlFor="achievements">Achievements (comma-separated):</label>
     {
-        formData.achievements.map((language, index) => (
-            <textarea className="px-2 py-1 border-2 rounded-md mb-2" rows="4" name="achievements" placeholder="e.g., Employee of the Month" onChange={(e) => handleChange(e, index)} />
+        formData.achievements.map((achievement, index) => (
+            <div key={index} className="p-2 border-2 rounded-md mb-2 bg-white">
+                <textarea value={achievement} className={inputStyle} rows="4" name="achievements" placeholder="e.g., Employee of the Month" onChange={(e) => handleChange(e, index)} />
+                <div name="achievements" className='p-2 bg-red-200 text-red-800 rounded-md font-bold w-fit hover:bg-red-800 cursor-pointer hover:text-white' onClick={(e) => removeThisElement(e, "achievements", index)}>Remove</div>
+            </div>
         ))
     }
     <button className="text-white bg-indigo-500 font-bold px-5 py-2 border-2 rounded-md mb-2" type="button" onClick={addAchievement}>Add Achievement</button>
 
     <h2 className="font-bold text-xl">Signature</h2>
     <label htmlFor="sign">Signature:</label>
-    <input className="px-2 py-1 border-2 rounded-md mb-2" type="text" id="sign" name="sign" onChange={handleChange} />
+    <input value={formData.sign} className={inputStyle} type="text" id="sign" name="sign" onChange={handleChange} />
 
-    <button className="text-white bg-indigo-500 font-bold px-5 py-2 border-2 rounded-md mb-2" type="button" onClick={submitForm}>Submit</button>
+    <button title="Create PDF" className="text-white bg-indigo-500 font-bold px-5 py-2 border-2 rounded-md mb-2" type="button" onClick={submitForm}>Submit</button> <button title="all details will reset" className="text-white bg-red-500 font-bold px-5 py-2 border-2 rounded-md mb-2" type="button" onClick={resetForm}>Clear Form</button>
 
 </form>
   )
