@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import "./resume.css"
 import template from "../template/resume";
-import * as pdfMake from "pdfmake/build/pdfmake";
+import pdfMake from "pdfmake";
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import UserForm from "../components/ResumeBuilder/UserForm"
 
