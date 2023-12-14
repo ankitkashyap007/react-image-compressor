@@ -128,7 +128,7 @@ export default function Form({formData,submitForm,setFormData}) {
     }
 
   return (
-    <form id="resumeForm">
+    <form method="POST" id="resumeForm">
     <div className='rounded-md p-2 bg-white my-2'>
         <h2 className="font-bold text-xl">Personal Details</h2>
         <label htmlFor="name">Name:</label>
