@@ -4,6 +4,7 @@ import template from "../template/resume";
 import fonts from "./font";
 import pdfMake from "pdfmake/build/pdfmake";
 import UserForm from "../components/ResumeBuilder/UserForm"
+import TemplateList from '../components/ResumeBuilder/TemplateList';
 
 pdfMake.vfs = fonts;
 
@@ -317,8 +318,8 @@ export default function ResumeBuilder() {
     }
 
     const submitForm = () => {
-
-        pdfMake.createPdf(template.pdfMake.resume(formData)).download(`"${formData.personalDetails.name || Date.now()}_Tech2radar.pdf`)
+        console.log("template")
+        // pdfMake.createPdf(template.pdfMake.standardResume(formData)).download(`"${formData.personalDetails.name || Date.now()}_Tech2radar.pdf`)
 
     };
 
@@ -326,7 +327,7 @@ export default function ResumeBuilder() {
         <div className='px-2 bg-gray-200'>
             <h2 className='text-2xl px-2'>Resume Builder</h2>
             <UserForm formData={formData} submitForm={submitForm} setFormData={setFormData} />
-
+            <TemplateList formData={formData} />
         </div>
     )
 }

@@ -386,7 +386,7 @@ const template = {
         return latexString;
     },
     pdfMake: {
-        resume: (data) => {
+        simpleResume: (data) => {
 
             // Define pdfmake content
             var content = [
@@ -465,6 +465,269 @@ const template = {
                 }
             };
             return docDefinition
+        },
+        standardResume: (data) => {
+            // playground requires you to assign document definition to a variable called dd
+
+            let resume = {
+                pageSize: 'A4',
+                "content": [
+                    {
+                        "text": "Resume",
+                        "alignment": "center",
+                        fontSize: 20,
+                        bold: true,
+                    },
+                    {
+                        "text": "Ankit",
+                        style:"userName"
+                    },
+                    {
+                        "text": "Date of Birth: 1990-01-15"
+                    }, {
+                        text: 'john.doe@example.com'
+                    },
+                    {
+                        text: 'linkedin.com/in/johndoe'
+                    }, {
+                        layout: 'noBorders', // optional
+
+                        table: {
+                            headerRows: 1,
+
+                            widths: ['*'],
+                            "body": [[
+                                {
+                                    "text": "",
+                                    "style": "mainHeadMarginTop"
+                                }
+                            ],
+                            [
+                                { text: 'Work Experience', style: "mainHeadTable" }], [{ text: '', style: 'mainHeadMarginBottom' }]
+                            ]
+                        }
+                    },
+
+                    [
+                        {
+                            "text": "Software Engineer",
+                            "bold": true
+                        },
+                        {
+                            "text": "Tech Solutions Inc., 2017-05-10 - 2020-08-15"
+                        },
+                        {
+                            "text": "Details: Developed and maintained software applications."
+                        },
+
+                    ],
+                    {
+                        layout: 'noBorders', // optional
+
+                        table: {
+                            headerRows: 1,
+
+                            widths: ['*'],
+                            "body": [[
+                                {
+                                    "text": "",
+                                    "style": "mainHeadMarginTop"
+                                }
+                            ],
+                            [
+                                { text: 'Education', style: "mainHeadTable" }], [{ text: '', style: 'mainHeadMarginBottom' }]
+                            ]
+                        }
+                    },
+                    {
+
+                        table: {
+                            headerRows: 1,
+
+                            widths: ['*', 'auto', 100, '*'],
+
+                            body: [
+                                [{ text: 'Exam name', style: "tableHeader" }, { text: 'Institute/University', style: "tableHeader" }, { text: 'Passing Year', style: "tableHeader" }, { text: 'Marks', style: "tableHeader" }],
+                                ...data.educations.map((education) => [
+                                    education.course || "",
+                                    education.university || "",
+                                    education.grade || "",
+                                    education.year || ""
+                                ])
+
+                            ]
+                        }
+                    },
+                    {
+                        layout: 'noBorders', // optional
+
+                        table: {
+                            headerRows: 1,
+
+                            widths: ['*'],
+                            "body": [[
+                                {
+                                    "text": "",
+                                    "style": "mainHeadMarginTop"
+                                }
+                            ],
+                            [
+                                { text: 'Skills', style: "mainHeadTable" }], [{ text: '', style: 'mainHeadMarginBottom' }]
+                            ]
+                        }
+                    },
+                    {
+                        "ul": data.skills
+                    }, {
+                        layout: 'noBorders', // optional
+
+                        table: {
+                            headerRows: 1,
+
+                            widths: ['*'],
+                            "body": [[
+                                {
+                                    "text": "",
+                                    "style": "mainHeadMarginTop"
+                                }
+                            ],
+                            [
+                                { text: 'Objective', style: "mainHeadTable" }], [{ text: '', style: 'mainHeadMarginBottom' }]
+                            ]
+                        }
+                    },
+
+                    data.objective,
+                    {
+                        layout: 'noBorders', // optional
+
+                        table: {
+                            headerRows: 1,
+
+                            widths: ['*'],
+                            "body": [[
+                                {
+                                    "text": "",
+                                    "style": "mainHeadMarginTop"
+                                }
+                            ],
+                            [
+                                { text: 'Projects', style: "mainHeadTable" }], [{ text: '', style: 'mainHeadMarginBottom' }]
+                            ]
+                        }
+                    },
+                    ...data.projects.map(({ name, description }) => [
+                        {
+                            "text": name || "",
+                            "bold": true,
+                            "margin": [0, 5, 0, 0]
+
+                        },
+                        {
+                            "text": description || ""
+                        },
+                        ""
+                    ],)
+                    , {
+                        layout: 'noBorders', // optional
+
+                        table: {
+                            headerRows: 1,
+
+                            widths: ['*'],
+                            "body": [[
+                                {
+                                    "text": "",
+                                    "style": "mainHeadMarginTop"
+                                }
+                            ],
+                            [
+                                { text: 'Languages', style: "mainHeadTable" }], [{ text: '', style: 'mainHeadMarginBottom' }]
+                            ]
+                        }
+                    },
+                    {
+                        "ul": data.languages
+                    }, {
+                        layout: 'noBorders', // optional
+
+                        table: {
+                            headerRows: 1,
+
+                            widths: ['*'],
+                            "body": [[
+                                {
+                                    "text": "",
+                                    "style": "mainHeadMarginTop"
+                                }
+                            ],
+                            [
+                                { text: 'Interests', style: "mainHeadTable" }], [{ text: '', style: 'mainHeadMarginBottom' }]
+                            ]
+                        }
+                    },
+
+                    {
+                        "ul": data.interests
+                    }, {
+                        layout: 'noBorders', // optional
+
+                        table: {
+                            headerRows: 1,
+
+                            widths: ['*'],
+                            "body": [[
+                                {
+                                    "text": "",
+                                    "style": "mainHeadMarginTop"
+                                }
+                            ],
+                            [
+                                { text: 'Achievements', style: "mainHeadTable" }],
+                            [{ text: '' }]
+                            ]
+                        }
+                    },
+
+                    {
+                        "ul": data.achievements
+                    },
+                    {
+                        "text": data.sign,
+                        "alignment": "right"
+                    }
+                ],
+                "styles": {
+                    "header": {
+                        "margin": [0, 8, 0, 2],
+                        "fontSize": 12,
+                        "bold": true
+                    },
+                    mainHeadTable: {
+                        fillColor: 'royalblue',
+                        color: "white",
+                        "margin": [5, 0, 0, 0],
+                        "fontSize": 12,
+                        "bold": true
+                    },
+                    mainHeadMarginTop: {
+                        "margin": [0, 2, 0, 0],
+                    }, mainHeadMarginBottom: {
+                        "margin": [0, 1, 0, 0],
+                    },
+                    tableHeader: {
+                        bold: true
+                    },
+                    userName:{
+                        fontSize:15
+                    }
+                },
+                defaultStyle: {
+                    fontSize: 10,
+                }
+
+            }
+            return resume;
         }
     }
 }
