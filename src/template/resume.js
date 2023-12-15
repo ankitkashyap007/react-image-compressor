@@ -480,7 +480,7 @@ const template = {
                     },
                     {
                         "text": "Ankit",
-                        style:"userName"
+                        style: "userName"
                     },
                     {
                         "text": "Date of Birth: 1990-01-15"
@@ -627,8 +627,7 @@ const template = {
                             "text": description || ""
                         },
                         ""
-                    ],)
-                    , {
+                    ],), {
                         layout: 'noBorders', // optional
 
                         table: {
@@ -718,8 +717,8 @@ const template = {
                     tableHeader: {
                         bold: true
                     },
-                    userName:{
-                        fontSize:15
+                    userName: {
+                        fontSize: 15
                     }
                 },
                 defaultStyle: {
@@ -727,6 +726,188 @@ const template = {
                 }
 
             }
+            return resume;
+        },
+        darkBlue: (data) => {
+            const themeColor = "darkblue";
+            const line = {
+                "lineColor": themeColor,
+                "type": "line",
+                "x1": 0,
+                "y1": 0,
+                "x2": 515,
+                "y2": 0,
+                "lineWidth": 15
+            };
+            const unorderListColumn = (data) => {
+                const twoColumn = [
+                    {
+                        ul: []
+                    },
+                    {
+                        ul: []
+                    }
+                ]
+                const ul = data.map((item, index) => {
+                    if (index % 2 === 0) return twoColumn[0].ul.push(item);
+                    return twoColumn[1].ul.push(item);
+                })
+                return twoColumn
+            }
+            const resume = {
+                "pageSize": "A4",
+                "content": [
+                    {
+                        "canvas": [line]
+                    },
+                    {
+                        "text": data.personalDetails.name, color: themeColor, fontSize: 25, alignment: "center", margin: [0, 10, 0, 0]
+                    },
+                    {
+                        "text": `DOB: ${data.personalDetails.dateOfBirth} | ${data.personalDetails.address}`, alignment: "center"
+                    },
+                    {
+                        "text": `${data.personalDetails.phone} | ${data.personalDetails.email}`, alignment: "center", margin: [0, 0, 0, 5]
+                    },
+                    {
+                        canvas: [{
+                            "lineColor": themeColor,
+                            "type": "line",
+                            "x1": 0,
+                            "y1": 0,
+                            "x2": 515,
+                            "y2": 0,
+                            dash: { length: 2 },
+                            "lineWidth": 2,
+                            margin: [50, 5, 50, 50]
+                        }]
+                    },
+                    { text: data.objective, margin: [0, 5, 0, 5] },
+                    {
+                        canvas: [{
+                            "lineColor": themeColor,
+                            "type": "line",
+                            "x1": 0,
+                            "y1": 0,
+                            "x2": 515,
+                            "y2": 0,
+                            dash: { length: 2 },
+                            "lineWidth": 2
+                        }]
+                    }, {
+                        "text": "Skills",
+                        "style": "header"
+                    },
+                    {
+                        margin: [10, 0, 0, 0],
+                        columns: unorderListColumn(data.skills)
+                    },
+                    {
+                        "text": "Work Experience",
+                        "style": "header"
+                    },
+                    [
+                        {
+                            "text": "Software Engineer",
+                            "bold": true
+                        },
+                        {
+                            "text": "Tech Solutions Inc., 2017-05-10 - 2020-08-15"
+                        },
+                        {
+                            "text": "Details: Developed and maintained software applications."
+                        }
+                    ],
+                    {
+                        "text": "Projects",
+                        "style": "header"
+                    },
+                    ...data.projects.map(({ name, description }) => [
+                        {
+                            "text": name || "",
+                            "bold": true,
+                            "margin": [0, 5, 0, 0]
+
+                        },
+                        {
+                            "text": description || ""
+                        },
+                        ""
+                    ],),
+
+                    {
+                        "text": "Achievements",
+                        "style": "header"
+                    },
+                    {
+                        margin: [10, 0, 0, 0],
+                        "ul": data.achievements
+                    }, {
+                        "text": "Education",
+                        "style": "header"
+                    },
+
+                    "Bachelor of Science in Computer Science",
+                    "City University | 2016",
+                    {
+                        "text": "Languages",
+                        "style": "header"
+                    },
+                    {
+                        margin: [10, 0, 0, 0],
+                        columns: unorderListColumn(data.languages)
+                    },
+                    {
+                        "text": "Interests",
+                        "style": "header"
+                    },
+                    {
+                        margin: [10, 0, 0, 0],
+                        columns: unorderListColumn(data.interests)
+                    },
+                    {
+                        "text": data.sign,
+                        "alignment": "right"
+                    }
+                ],
+                "styles": {
+                    "header": {
+                        fontFeatures: ['c2sc', 'smcp'],
+                        "fillColor": "royalblue",
+                        "margin": [
+                            0,
+                            5,
+                            0,
+                            2
+                        ],
+                        "fontSize": 12,
+                        "bold": true
+                    },
+                    "mainHeadMarginTop": {
+                        "margin": [
+                            0,
+                            2,
+                            0,
+                            0
+                        ]
+                    },
+                    "mainHeadMarginBottom": {
+                        "margin": [
+                            0,
+                            5,
+                            0,
+                            0
+                        ]
+                    },
+                    "tableHeader": {
+                        "bold": true
+                    }
+                },
+                "defaultStyle": {
+                    "fontSize": 10
+                }
+            }
+
             return resume;
         }
     }

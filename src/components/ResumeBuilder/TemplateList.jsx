@@ -15,15 +15,21 @@ export default function TemplateList({ formData }) {
         name: "Simple",
         image: "./simple_resume.webp",
         path: "simpleResume"
+    },{
+        name: "Dark Blue",
+        image: "./darkblue.webp",
+        path: "darkBlue"
     }];
     function handler(path) {
-        pdfMake.createPdf(template.pdfMake[path](formData)).download(`"${formData.personalDetails.name || Date.now()}_Tech2radar.pdf`)
+        pdfMake.createPdf(template.pdfMake[path](formData)).open()
     }
     return (
         <div><h3 className='text-xl font-bold'>Resume Templates</h3>
+        <div className='grid grid-cols-none gap-4 md:grid-cols-3'>
             {templateList.map((template, index) => (
                 <TemplateCard key={index} template={template} handler={() => handler(template.path)} />
             ))}
+            </div>
         </div>
     )
 }
