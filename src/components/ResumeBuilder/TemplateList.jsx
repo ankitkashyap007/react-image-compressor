@@ -15,6 +15,10 @@ export default function TemplateList({ formData }) {
         name: "Simple",
         image: "./simple_resume.webp",
         path: "simpleResume"
+    }, {
+        name: "Line Simple",
+        image: "./simple_resume.webp",
+        path: "lineResume"
     },{
         name: "Dark Blue",
         image: "./darkblue.webp",

@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react'
 import Upload from './Upload';
 import ProgressButton from './ProgressButton';
 
-export default function ImageCompressor() {
+export default function ImageCompressor({ mainFormat }) {
 
+    const formats = ["heic", "heif", "avif", "jpeg", "jpg", "jpe", "tile", "dz", "png", "tif", "webp", "gif"]
+    console.log(mainFormat)
+    const [format, setFormat] = useState(mainFormat || "");
     // Get Local data function
     const localdata = () => {
         const data = JSON.parse(localStorage.getItem("t2rDefaultName"));
@@ -42,7 +45,6 @@ export default function ImageCompressor() {
     // Byte to KB or MB size converter
     function byteToMb(byte) {
         let size = ""
-        console.log(byte)
         if (byte > 1000000) {
             size = (byte / 1024 / 1024).toFixed(2) + " MB"
         }
@@ -60,7 +62,7 @@ export default function ImageCompressor() {
         const formData = new FormData();
         formData.append('image', imageData.image);
         formData.append('compress', imageData.compress);
-        formData.append('format', 'webp');
+        formData.append('format', format);
         try {
             const response = await fetch('https://image-service-982z.onrender.com/compressor', {
                 method: 'POST',
@@ -84,6 +86,11 @@ export default function ImageCompressor() {
         }
     }
 
+    const selectedFormat = (value) => {
+        console.log(value)
+        setFormat(value)
+    }
+
     const message = (msg) => {
         setTimeout(() => {
             setError(null);
@@ -91,7 +98,7 @@ export default function ImageCompressor() {
         return (<div className='bg-red-500 rounded-md py-2 px-4 text-white my-5' >{msg}</div>)
     }
 
-    const compressedFilename = () => { return defaultName ? imageData.image.name.replace(/\.[^/.]+$/, ".webp") : `${Date.now()}_${imageData.image.name.replace(/\.[^/.]+$/, ".webp")}` };
+    const compressedFilename = () => { return defaultName ? imageData.image.name.replace(/\.[^/.]+$/, `.${format}`) : `${Date.now()}_${imageData.image.name.replace(/\.[^/.]+$/, `.${format}`)}` };
 
     const reducePercent = (originalSize, compressedSize) => {
         return (((originalSize - compressedSize) / originalSize) * 100).toFixed(2) + "%";
@@ -103,10 +110,10 @@ export default function ImageCompressor() {
                 <Upload name="image" uploadFileInfo="SVG, PNG, JPG or GIF (MAX. 20MB)" handleChange={handleChange} acceptFormats="image/*" />
 
                 <div className='my-8 md:w-100 items-center'>
-                <div className="flex inline-flex">
+                    <div className="flex inline-flex">
 
-                    <input type="checkbox" className="enabled:hover:border-gray-400 cursor-pointer w-auto mr-2" name="originalName" onChange={handleName} checked={defaultName} />
-                    <label htmlFor='original-name' className='font-bold mr-5'> Default Name</label>
+                        <input type="checkbox" className="enabled:hover:border-gray-400 cursor-pointer w-auto mr-2" name="originalName" onChange={handleName} checked={defaultName} />
+                        <label htmlFor='original-name' className='font-bold mr-5'> Default Name</label>
                     </div>
                     <div className="inline-flex items-center">
 
@@ -114,9 +121,13 @@ export default function ImageCompressor() {
                         <input name="compress" type="range" value={imageData.compress} onChange={handleChange} min="10" max="100" className="w-1/3 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" />
                         <span className=" rounded-lg ml-5 bg-indigo-500 py-2 px-3 text-white text-sm font-medium">{imageData.compress}%</span>
                     </div>
+                    <label htmlFor="cars">Convert to:</label>
+                <select id="cars" value={format} onChange={e => selectedFormat(e.target.value)}>
+                    {formats.map((title) => (<option value={title}>{title}</option>))}
+                </select>
                 </div>
-
-                <ProgressButton buttonTitle="Compress" handler={handleCompress} disable={!imageData.image.type} isLoading={isLoading}/>
+            
+                <ProgressButton buttonTitle="Compress" handler={handleCompress} disable={!imageData.image.type} isLoading={isLoading} />
 
             </form>
             {isImageCompress && <div className="pt-5 md:w-1/4 font-medium p-2 border-solid border-2 border-indigo-500 rounded-md mt-5" >

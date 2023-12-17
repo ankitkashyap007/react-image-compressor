@@ -1,10 +1,10 @@
 import Header from "../components/Header"
 import ImageCompressor from "../components/ImageCompressor"
 
-const Home = () => {
+const Home = ({mainFormat}) => {
     return (
         <div><h2 className='p-5 font-bold text-2xl py-5 tracking-wide'>Image Compressor</h2>
-            <ImageCompressor />
+            <ImageCompressor mainFormat={mainFormat}/>
             <div className="p-5">
                 <h2 className="pt-2 font-bold text-xl">Effortlessly Convert and Compress Your Images</h2>
                 <p className="pt-2">In today&#39;s digital world, images are an essential part of sharing your ideas and experiences with others. However, large image files can quickly consume valuable storage space and slow down your online activities. That&#39;s where Tech2radar comes in. Our powerful yet easy-to-use image conversion and compression tool allows you to seamlessly transform your images into various formats while reducing their file size without compromising quality.</p>

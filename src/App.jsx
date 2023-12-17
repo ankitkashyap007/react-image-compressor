@@ -10,8 +10,11 @@ import MergePdf from './pages/MergePdf';
 import WpDetector from './pages/WpDetector';
 import WebAuditorAI from './pages/WebAuditorAI';
 import ResumeBuilder from './pages/ResumeBuilder';
+import ImageToPdf from './pages/ImageToPdf';
 
 function App() {
+  const formats = ["heic", "heif", "avif", "jpeg", "jpg", "jpe", "tile", "dz", "png", "raw", "tiff", "tif", "webp", "gif", "jp2", "jpx", "j2k", "j2c", "jxl"];
+
   return (<>
     <Router>
 
@@ -25,132 +28,16 @@ function App() {
           { /** 
            * JPG Converter
            */}
-          <Route path="/jpg-to-png" element={<Home />} />
-          <Route path="/jpg-to-webp" element={<Home />} />
-          <Route path="/jpg-to-gif" element={<Home />} />
-          <Route path="/jpg-to-jp2" element={<Home />} />
-          <Route path="/jpg-to-tiff" element={<Home />} />
-          <Route path="/jpg-to-webp" element={<Home />} />
-          <Route path="/jpg-to-jxl" element={<Home />} />
-          <Route path="/jpg-to-jpeg" element={<Home />} />
-          <Route path="/jpg-to-heif" element={<Home />} />
 
-          { /** 
-           * PNG Converter
-           */}
-          <Route path="/png-to-webp" element={<Home />} />
-          <Route path="/png-to-gif" element={<Home />} />
-          <Route path="/png-to-jp2" element={<Home />} />
-          <Route path="/png-to-tiff" element={<Home />} />
-          <Route path="/png-to-webp" element={<Home />} />
-          <Route path="/png-to-jxl" element={<Home />} />
-          <Route path="/png-to-jpeg" element={<Home />} />
-          <Route path="/png-to-heif" element={<Home />} />
+            const formats = ["heic", "heif", "avif", "jpeg", "jpg", "jpe", "tile", "dz", "png", "tif", "webp", "gif"];
+            {
+              formats.flatMap((sourceFormat, i) =>
+              formats
+                .filter((_, j) => i !== j)
+                .map(targetFormat => <Route key={i} path={`${sourceFormat}-to-${targetFormat}`} mainFormat={targetFormat} element={<Home />} />)
+            )}
 
-          { /** 
-           * JPG Converter
-           */}
-          <Route path="/jpg-to-png" element={<Home />} />
-          <Route path="/jpg-to-webp" element={<Home />} />
-          <Route path="/jpg-to-gif" element={<Home />} />
-          <Route path="/jpg-to-jp2" element={<Home />} />
-          <Route path="/jpg-to-tiff" element={<Home />} />
-          <Route path="/jpg-to-webp" element={<Home />} />
-          <Route path="/jpg-to-jxl" element={<Home />} />
-          <Route path="/jpg-to-jpeg" element={<Home />} />
-          <Route path="/jpg-to-heif" element={<Home />} />
-
-          { /** 
-           * JPG Converter
-           */}
-          <Route path="/jpg-to-png" element={<Home />} />
-          <Route path="/jpg-to-webp" element={<Home />} />
-          <Route path="/jpg-to-gif" element={<Home />} />
-          <Route path="/jpg-to-jp2" element={<Home />} />
-          <Route path="/jpg-to-tiff" element={<Home />} />
-          <Route path="/jpg-to-webp" element={<Home />} />
-          <Route path="/jpg-to-jxl" element={<Home />} />
-          <Route path="/jpg-to-jpeg" element={<Home />} />
-          <Route path="/jpg-to-heif" element={<Home />} />
-
-          { /** 
-           * JPG Converter
-           */}
-          <Route path="/jpg-to-png" element={<Home />} />
-          <Route path="/jpg-to-webp" element={<Home />} />
-          <Route path="/jpg-to-gif" element={<Home />} />
-          <Route path="/jpg-to-jp2" element={<Home />} />
-          <Route path="/jpg-to-tiff" element={<Home />} />
-          <Route path="/jpg-to-webp" element={<Home />} />
-          <Route path="/jpg-to-jxl" element={<Home />} />
-          <Route path="/jpg-to-jpeg" element={<Home />} />
-          <Route path="/jpg-to-heif" element={<Home />} />
-
-          { /** 
-           * JPG Converter
-           */}
-          <Route path="/jpg-to-png" element={<Home />} />
-          <Route path="/jpg-to-webp" element={<Home />} />
-          <Route path="/jpg-to-gif" element={<Home />} />
-          <Route path="/jpg-to-jp2" element={<Home />} />
-          <Route path="/jpg-to-tiff" element={<Home />} />
-          <Route path="/jpg-to-webp" element={<Home />} />
-          <Route path="/jpg-to-jxl" element={<Home />} />
-          <Route path="/jpg-to-jpeg" element={<Home />} />
-          <Route path="/jpg-to-heif" element={<Home />} />
-
-          { /** 
-           * JPG Converter
-           */}
-          <Route path="/jpg-to-png" element={<Home />} />
-          <Route path="/jpg-to-webp" element={<Home />} />
-          <Route path="/jpg-to-gif" element={<Home />} />
-          <Route path="/jpg-to-jp2" element={<Home />} />
-          <Route path="/jpg-to-tiff" element={<Home />} />
-          <Route path="/jpg-to-webp" element={<Home />} />
-          <Route path="/jpg-to-jxl" element={<Home />} />
-          <Route path="/jpg-to-jpeg" element={<Home />} />
-          <Route path="/jpg-to-heif" element={<Home />} />
-
-          { /** 
-           * JPG Converter
-           */}
-          <Route path="/jpg-to-png" element={<Home />} />
-          <Route path="/jpg-to-webp" element={<Home />} />
-          <Route path="/jpg-to-gif" element={<Home />} />
-          <Route path="/jpg-to-jp2" element={<Home />} />
-          <Route path="/jpg-to-tiff" element={<Home />} />
-          <Route path="/jpg-to-webp" element={<Home />} />
-          <Route path="/jpg-to-jxl" element={<Home />} />
-          <Route path="/jpg-to-jpeg" element={<Home />} />
-          <Route path="/jpg-to-heif" element={<Home />} />
-
-          { /** 
-           * JPG Converter
-           */}
-          <Route path="/jpg-to-png" element={<Home />} />
-          <Route path="/jpg-to-webp" element={<Home />} />
-          <Route path="/jpg-to-gif" element={<Home />} />
-          <Route path="/jpg-to-jp2" element={<Home />} />
-          <Route path="/jpg-to-tiff" element={<Home />} />
-          <Route path="/jpg-to-webp" element={<Home />} />
-          <Route path="/jpg-to-jxl" element={<Home />} />
-          <Route path="/jpg-to-jpeg" element={<Home />} />
-          <Route path="/jpg-to-heif" element={<Home />} />
-
-          { /** 
-           * JPG Converter
-           */}
-          <Route path="/jpg-to-png" element={<Home />} />
-          <Route path="/jpg-to-webp" element={<Home />} />
-          <Route path="/jpg-to-gif" element={<Home />} />
-          <Route path="/jpg-to-jp2" element={<Home />} />
-          <Route path="/jpg-to-tiff" element={<Home />} />
-          <Route path="/jpg-to-webp" element={<Home />} />
-          <Route path="/jpg-to-jxl" element={<Home />} />
-          <Route path="/jpg-to-jpeg" element={<Home />} />
-          <Route path="/jpg-to-heif" element={<Home />} />
-          
+          <Route path="/pdf-converter" element={<ImageToPdf />} />
           <Route path="/wp-detector" element={<WpDetector />} />
           <Route path="/web-auditor-ai" element={<WebAuditorAI/>} />
           <Route path="/resume-builder-ai" element={<ResumeBuilder />} />

@@ -417,7 +417,9 @@ const template = {
 
                 // Skills
                 { text: 'Skills', style: 'header' },
-                { ul: data.skills },
+                {
+                    margin: [10, 0, 0, 0], ul: data.skills
+                },
 
                 // Objective
                 { text: 'Objective', style: 'header' },
@@ -432,15 +434,21 @@ const template = {
 
                 // Languages
                 { text: 'Languages', style: 'header' },
-                { ul: data.languages },
+                {
+                    margin: [10, 0, 0, 0], ul: data.languages
+                },
 
                 // Interests
                 { text: 'Interests', style: 'header' },
-                { ul: data.interests },
+                {
+                    margin: [10, 0, 0, 0], ul: data.interests
+                },
 
                 // Achievements
                 { text: 'Achievements', style: 'header' },
-                { ul: data.achievements },
+                {
+                    margin: [10, 0, 0, 0], ul: data.achievements
+                },
 
                 // Sign
                 { text: `${data.sign}`, alignment: 'right' }
@@ -464,7 +472,175 @@ const template = {
                     fontSize: 10,
                 }
             };
+
             return docDefinition
+        },
+        lineResume: (data) => {
+            var content = [
+                // Personal Details
+                { text: data.personalDetails.name, style: 'header' },
+                { text: `Address: ${data.personalDetails.address}` },
+                { text: `Email: ${data.personalDetails.email}` },
+                { text: `Phone: ${data.personalDetails.phone}` },
+                { text: `Date of Birth: ${data.personalDetails.dateOfBirth}` },
+                { text: `Website: ${data.personalDetails.website}` },
+                { text: `LinkedIn: ${data.personalDetails.linkedin}` },
+
+                // Education
+                { text: 'Education', style: 'header' },
+                {
+                    "canvas": [{
+                        "lineColor": "gray",
+                        "type": "line",
+                        "x1": 0,
+                        "y1": -2,
+                        "x2": 515,
+                        "y2": -2,
+                        "lineWidth": 1
+                    }]
+                },
+                ...data.educations.map(edu => [
+                    { text: edu.course, bold: true },
+                    { text: `${edu.university}, ${edu.year}`, italics: true },
+                    { text: `Grade: ${edu.grade}` },
+                ]),
+
+                // Work Experience
+                { text: 'Work Experience', style: 'header' }, {
+                    "canvas": [{
+                        "lineColor": "gray",
+                        "type": "line",
+                        "x1": 0,
+                        "y1": -2,
+                        "x2": 515,
+                        "y2": -2,
+                        "lineWidth": 1
+                    }]
+                },
+                ...data.experiences.map(exp => [
+                    { text: exp.jobTitle, bold: true },
+                    { text: `${exp.companyName}, ${exp.startDate} - ${exp.endDate}` },
+                    { text: `Details: ${exp.details}` },
+                ]),
+
+                // Skills
+                { text: 'Skills', style: 'header' }, {
+                    "canvas": [{
+                        "lineColor": "gray",
+                        "type": "line",
+                        "x1": 0,
+                        "y1": -2,
+                        "x2": 515,
+                        "y2": -2,
+                        "lineWidth": 1
+                    }]
+                },
+                {
+                    margin: [10, 0, 0, 0], ul: data.skills
+                },
+
+                // Objective
+                { text: 'Objective', style: 'header' }, {
+                    "canvas": [{
+                        "lineColor": "gray",
+                        "type": "line",
+                        "x1": 0,
+                        "y1": -2,
+                        "x2": 515,
+                        "y2": -2,
+                        "lineWidth": 1
+                    }]
+                },
+                data.objective,
+
+                // Projects
+                { text: 'Projects', style: 'header' }, {
+                    "canvas": [{
+                        "lineColor": "gray",
+                        "type": "line",
+                        "x1": 0,
+                        "y1": -2,
+                        "x2": 515,
+                        "y2": -2,
+                        "lineWidth": 1
+                    }]
+                },
+                ...data.projects.map(project => [
+                    { text: project.name, bold: true, margin: [0, 2, 0, 0] },
+                    { text: project.description },
+                ]),
+
+                // Languages
+                { text: 'Languages', style: 'header' }, {
+                    "canvas": [{
+                        "lineColor": "gray",
+                        "type": "line",
+                        "x1": 0,
+                        "y1": -2,
+                        "x2": 515,
+                        "y2": -2,
+                        "lineWidth": 1
+                    }]
+                },
+                {
+                    margin: [10, 0, 0, 0], ul: data.languages
+                },
+
+                // Interests
+                { text: 'Interests', style: 'header' }, {
+                    "canvas": [{
+                        "lineColor": "gray",
+                        "type": "line",
+                        "x1": 0,
+                        "y1": -2,
+                        "x2": 515,
+                        "y2": -2,
+                        "lineWidth": 1
+                    }]
+                },
+                {
+                    margin: [10, 0, 0, 0], ul: data.interests
+                },
+
+                // Achievements
+                { text: 'Achievements', style: 'header' }, {
+                    "canvas": [{
+                        "lineColor": "gray",
+                        "type": "line",
+                        "x1": 0,
+                        "y1": -2,
+                        "x2": 515,
+                        "y2": -2,
+                        "lineWidth": 1
+                    }]
+                },
+                {
+                    margin: [10, 0, 0, 0], ul: data.achievements
+                },
+
+                // Sign
+                { text: `${data.sign}`, alignment: 'right' }
+            ];
+
+            // Styles definition
+            var styles = {
+                header: {
+                    margin: [0, 6, 0, 5],
+                    fontSize: 12,
+                    bold: true
+                }
+            };
+
+            // Create PDF document definition
+            var resume = {
+                pageSize: 'A4',
+                content: content,
+                styles: styles,
+                defaultStyle: {
+                    fontSize: 10,
+                }
+            };
+            return resume
         },
         standardResume: (data) => {
             // playground requires you to assign document definition to a variable called dd
@@ -479,16 +655,16 @@ const template = {
                         bold: true,
                     },
                     {
-                        "text": "Ankit",
+                        "text": data.personalDetails.name,
                         style: "userName"
                     },
                     {
-                        "text": "Date of Birth: 1990-01-15"
+                        "text": `Date of Birth: ${data.personalDetails.dateOfBirth}`
                     }, {
-                        text: 'john.doe@example.com'
+                        text: data.personalDetails
                     },
                     {
-                        text: 'linkedin.com/in/johndoe'
+                        text: data.personalDetails.linkedin
                     }, {
                         layout: 'noBorders', // optional
 
@@ -507,20 +683,13 @@ const template = {
                             ]
                         }
                     },
-
-                    [
+                    ...data.experiences.map(experience => [
+                        { text: experience.jobTitle, bold: true, margin: [0, 2, 0, 0] },
+                        { text: `${experience.companyName}, ${experience.startDate} - ${experience.endDate}` },
                         {
-                            "text": "Software Engineer",
-                            "bold": true
+                            text: experience.details
                         },
-                        {
-                            "text": "Tech Solutions Inc., 2017-05-10 - 2020-08-15"
-                        },
-                        {
-                            "text": "Details: Developed and maintained software applications."
-                        },
-
-                    ],
+                    ]),
                     {
                         layout: 'noBorders', // optional
 

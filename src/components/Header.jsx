@@ -12,7 +12,10 @@ export default function Header() {
   },{
     title: "Web Auditor AI",
     url: "/web-auditor-ai"
-  },  {
+  }, {
+    title: "PDF Converter",
+    url: "/pdf-converter"
+  }, {
     title: "Resume Builder AI",
     url: "/resume-builder-ai"
   },{
