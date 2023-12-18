@@ -11,6 +11,7 @@ import WpDetector from './pages/WpDetector';
 import WebAuditorAI from './pages/WebAuditorAI';
 import ResumeBuilder from './pages/ResumeBuilder';
 import ImageToPdf from './pages/ImageToPdf';
+import ImageConvert from './pages/ImageConvert'
 
 function App() {
   const formats = ["heic", "heif", "avif", "jpeg", "jpg", "jpe", "tile", "dz", "png", "raw", "tiff", "tif", "webp", "gif", "jp2", "jpx", "j2k", "j2c", "jxl"];
@@ -29,20 +30,20 @@ function App() {
            * JPG Converter
            */}
 
-            const formats = ["heic", "heif", "avif", "jpeg", "jpg", "jpe", "tile", "dz", "png", "tif", "webp", "gif"];
-            {
-              formats.flatMap((sourceFormat, i) =>
+          const formats = ["heic", "heif", "avif", "jpeg", "jpg", "jpe", "tile", "dz", "png", "tif", "webp", "gif"];
+          {
+            formats.flatMap((sourceFormat, i) =>
               formats
                 .filter((_, j) => i !== j)
-                .map(targetFormat => <Route key={i} path={`${sourceFormat}-to-${targetFormat}`} mainFormat={targetFormat} element={<Home />} />)
+                .map(targetFormat => <Route key={i} path={`${sourceFormat}-to-${targetFormat}`} mainFormat={targetFormat} element={<ImageConvert mainFormat={targetFormat}/>} />)
             )}
-
+          <Route path="/" element={<Home />} />
           <Route path="/pdf-converter" element={<ImageToPdf />} />
           <Route path="/wp-detector" element={<WpDetector />} />
-          <Route path="/web-auditor-ai" element={<WebAuditorAI/>} />
+          <Route path="/web-auditor-ai" element={<WebAuditorAI />} />
           <Route path="/resume-builder-ai" element={<ResumeBuilder />} />
 
-          <Route path="/merge-pdf" element={<MergePdf/>} />
+          <Route path="/merge-pdf" element={<MergePdf />} />
           <Route path="/about" element={<About />} />
           <Route path="/privacy" element={<Privacy />} />
         </Routes>
