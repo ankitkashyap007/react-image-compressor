@@ -12,6 +12,7 @@ import WebAuditorAI from './pages/WebAuditorAI';
 import ResumeBuilder from './pages/ResumeBuilder';
 import ImageToPdf from './pages/ImageToPdf';
 import ImageConvert from './pages/ImageConvert'
+import PlagiarismChecker from './pages/PlagiarismChecker';
 
 function App() {
   const formats = ["heic", "heif", "avif", "jpeg", "jpg", "jpe", "tile", "dz", "png", "raw", "tiff", "tif", "webp", "gif", "jp2", "jpx", "j2k", "j2c", "jxl"];
@@ -35,13 +36,18 @@ function App() {
             formats.flatMap((sourceFormat, i) =>
               formats
                 .filter((_, j) => i !== j)
-                .map(targetFormat => <Route key={i} path={`${sourceFormat}-to-${targetFormat}`} mainFormat={targetFormat} element={<ImageConvert mainFormat={targetFormat}/>} />)
+                .map(targetFormat => <Route key={i} path={`${sourceFormat}-to-${targetFormat}`} element={<ImageConvert mainFormat={targetFormat} />} />)
             )}
+            
+          {
+            formats
+              .map((sourceFormat, i) => <Route key={i} path={`${sourceFormat}-to-pdf-converter`} element={<ImageToPdf mainFormat={sourceFormat} />} />)
+          }
           <Route path="/" element={<Home />} />
-          <Route path="/pdf-converter" element={<ImageToPdf />} />
           <Route path="/wp-detector" element={<WpDetector />} />
           <Route path="/web-auditor-ai" element={<WebAuditorAI />} />
           <Route path="/resume-builder-ai" element={<ResumeBuilder />} />
+          <Route path="/plagiarism-checker" element={<PlagiarismChecker />} />
 
           <Route path="/merge-pdf" element={<MergePdf />} />
           <Route path="/about" element={<About />} />

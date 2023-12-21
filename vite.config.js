@@ -7,7 +7,7 @@ const manifestForPlugIn = {
   includeAssests: ['favicon.ico', "apple-touch-icon.png", "masked-icon.svg"],
   manifest: {
     name: "Tech2radar AI",
-    short_name: "tech2radar-ai",
+    short_name: "Tech2radarAI",
     description: "Empower your creativity with free AI tools! AI Toolbox offers a suite of powerful artificial intelligence tools to enhance your projects. From image recognition to natural language processing, unleash the potential of AI without any cost.",
     icons: [{
       src: '/android-chrome-192x192.png',

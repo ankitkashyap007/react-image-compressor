@@ -3,6 +3,7 @@ import fonts from "../pages/font.js";
 import pdfMake from "pdfmake/build/pdfmake";
 import ProgressButton from "../components/ProgressButton";
 import Upload from "../components/Upload";
+import { Link } from "react-router-dom";
 
 pdfMake.vfs = fonts;
 
@@ -10,7 +11,7 @@ const ImageToPdf = ({ mainFormat }) => {
 
     const formats = ["heic", "heif", "avif", "jpeg", "jpg", "jpe", "tile", "dz", "png", "tif", "webp", "gif"]
     console.log(mainFormat)
-    const [format, setFormat] = useState(mainFormat || "");
+
     // Get Local data function
     const localdata = () => {
         const data = JSON.parse(localStorage.getItem("t2rDefaultName"));
@@ -22,11 +23,9 @@ const ImageToPdf = ({ mainFormat }) => {
     const [isError, setError] = useState(null);
 
     const [imageData, setImageData] = useState({
-        image: "",
-        compress: 80,
-        format: "webp"
+        image: ""
     });
-    const [isImageCompress, setImageCompress] = useState(null);
+    const [genPdf, setGenPdf] = useState(null);
 
     // Handle image upload
     function handleChange(e) {
@@ -42,7 +41,7 @@ const ImageToPdf = ({ mainFormat }) => {
                 const path = e.target.result;
                 console.log(path)
                 setImageData(preValue => {
-                    return { ...preValue, [name]: type === "file" ? path : value }
+                    return { ...preValue, [name]: type === "file" ? file : value }
                 })
 
             }
@@ -63,16 +62,14 @@ const ImageToPdf = ({ mainFormat }) => {
     }
 
     // Handle Compress image
-    async function handleCompress(e) {
+    async function handlePdfSupport(e) {
         e.preventDefault();
         setIsLoading(true)
-        setImageCompress(null)
+        setGenPdf(null)
         const formData = new FormData();
-        formData.append('image', imageData.image);
-        formData.append('compress', imageData.compress);
-        formData.append('format', format);
+        formData.append('pdf', imageData.image);
         try {
-            const response = await fetch('http://localhost:3001/compressor', {
+            const response = await fetch('https://image-service-982z.onrender.com/pdf/image-to-pdf', {
                 method: 'POST',
                 body: formData,
             });
@@ -84,19 +81,13 @@ const ImageToPdf = ({ mainFormat }) => {
                 throw new Error(message.message);
             }
             setIsLoading(false)
-            // Display the compressed image
+
             const blob = await response.blob()
-            setCompressSize(blob.size)
-            return setImageCompress(URL.createObjectURL(blob))
+            return setGenPdf(URL.createObjectURL(blob))
         } catch (error) {
             setError(error.message)
             setIsLoading(false)
         }
-    }
-
-    const selectedFormat = (value) => {
-        console.log(value)
-        setFormat(value)
     }
 
     const message = (msg) => {
@@ -135,14 +126,22 @@ const ImageToPdf = ({ mainFormat }) => {
 
     return (
         <div className="px-6 py-5">
-            <h2 className='p-5 font-bold text-2xl py-5 tracking-wide'>Image to PDF Converter</h2>
-            
+            <h2 className='p-5 font-bold text-2xl py-5 tracking-wide'>{mainFormat ? mainFormat.toUpperCase() : 'Image'} to PDF Converter</h2>
+
             <form>
                 <Upload name="image" uploadFileInfo="PNG, JPG (MAX. 20MB)" handleChange={handleChange} acceptFormats="image/*" />
 
-                <ProgressButton buttonTitle="Compress" handler={generatePdf} disable={!imageData.image} isLoading={isLoading} />
+                <ProgressButton buttonTitle="Compress" handler={handlePdfSupport} disable={!imageData.image} isLoading={isLoading} />
 
             </form>
+            {
+                genPdf && <div className="pt-5 md:w-1/4 font-medium " >
+
+                    <a href={genPdf} download={Date.now() + ".pdf"} className='inline-flex mt-10 py-2 px-3 bg-indigo-500 text-white text-sm font-semibold shadow focus:outline-none' >Download</a></div>
+            }
+            {isError &&
+                message(isError)
+            }
         </div>)
 }
 export default ImageToPdf;
