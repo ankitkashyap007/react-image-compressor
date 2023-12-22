@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home';
@@ -15,35 +15,56 @@ import ImageConvert from './pages/ImageConvert'
 import PlagiarismChecker from './pages/PlagiarismChecker';
 
 function App() {
-  const formats = ["heic", "heif", "avif", "jpeg", "jpg", "jpe", "tile", "dz", "png", "raw", "tiff", "tif", "webp", "gif", "jp2", "jpx", "j2k", "j2c", "jxl"];
+
+  const [imagePages, setImagePages] = useState([]);
+  const [pdfPages, setPdfPages] = useState([]);
+
+  const formats = ["jpeg", "png", "jpg", "webp", "gif", "avif", "jpe", "tile", "dz", "tif", "heic", "heif"];
+  useEffect(() => {
+    setPdfPages(formats
+      .map((sourceFormat) =>
+      ({
+        title: `${sourceFormat.toUpperCase()} to PDF Converter`,
+        url: `${sourceFormat}-to-pdf-converter`,
+        sourceFormat
+  
+      })))
+    setImagePages(() => {
+      const pages = [];
+      formats.map((sourceFormat, i) =>
+        formats
+          .filter((_, j) => i !== j)
+          .map(targetFormat => pages.push({ title: `${sourceFormat.toUpperCase()} to ${targetFormat.toUpperCase()}`, url: `${sourceFormat}-to-${targetFormat}`, target: targetFormat }))
+      );
+      return pages;
+  
+    }
+    )
+  },[])
+ 
 
   return (<>
     <Router>
 
       <Header />
-      <main className='h-100 w-full'>
+      <main className='h-100 w-full tracking-wide'>
         <Routes>
-          <Route path="/" element={<Home />} />
-          {/**
-           *  heic, heif, avif, jpeg, jpg, jpe, tile, dz, png, raw, tiff, tif, webp, gif, jp2, jpx, j2k, j2c, jxl
-           */}
+
           { /** 
-           * JPG Converter
+           * Image Converter
            */}
 
-          const formats = ["heic", "heif", "avif", "jpeg", "jpg", "jpe", "tile", "dz", "png", "tif", "webp", "gif"];
+
           {
-            formats.flatMap((sourceFormat, i) =>
-              formats
-                .filter((_, j) => i !== j)
-                .map(targetFormat => <Route key={i} path={`${sourceFormat}-to-${targetFormat}`} element={<ImageConvert mainFormat={targetFormat} />} />)
+            imagePages.map(({ title, url, target }, i) => < Route key={i} path={url} element={< ImageConvert mainFormat={target} />} />
             )}
-            
+
           {
-            formats
-              .map((sourceFormat, i) => <Route key={i} path={`${sourceFormat}-to-pdf-converter`} element={<ImageToPdf mainFormat={sourceFormat} />} />)
+            pdfPages
+              .map(({ url, sourceFormat }, i) => <Route key={i} path={url} element={<ImageToPdf mainFormat={sourceFormat} />} />)
           }
-          <Route path="/" element={<Home />} />
+
+          <Route path="/" element={<Home imagePages={imagePages} pdfPages={pdfPages} />} />
           <Route path="/wp-detector" element={<WpDetector />} />
           <Route path="/web-auditor-ai" element={<WebAuditorAI />} />
           <Route path="/resume-builder-ai" element={<ResumeBuilder />} />

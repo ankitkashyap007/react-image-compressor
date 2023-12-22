@@ -16,7 +16,7 @@ export default function AuditReport({ report }) {
                 <tr>
                   <td colSpan={2} className={titleClass(key)}>{key}</td>
                 </tr>
-                {typeof (value) === "string" ? <div className="px-2 py-4" dangerouslySetInnerHTML={{ __html: value }} /> : Object.entries(value).map(([key, value]) => (<tr className='border-b border-2'>
+                {typeof (value) === "string" ? <tr><td className="px-2 py-4" colSpan={2} dangerouslySetInnerHTML={{ __html: value }} /></tr> : Object.entries(value).map(([key, value]) => (<tr className='border-b border-2'>
                   <td className="p-2">{key}</td>
                   <td className="p-2">{value}</td>
                 </tr>))}

@@ -22,7 +22,7 @@ export default function PlagiarismChecker() {
     try {
       const response = await fetch('https://image-service-982z.onrender.com/cron/plagiarism', {
         method: 'POST',
-        body: formData,
+        body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
